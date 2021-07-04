@@ -34,7 +34,7 @@
 #include <string>
 
 #include "LinkedList.h"
-
+using namespace std;
 /********************************************************************
   Exercise 1: insertOrdered
 
@@ -80,12 +80,49 @@
 
 template <typename T>
 void LinkedList<T>::insertOrdered(const T& newData) {
-
+    //cout<<newData<<endl;
   // -----------------------------------------------------------
   // TODO: Your code here!
   // -----------------------------------------------------------
   // Please implement this function according to the description
   // above and in the instructions PDF.
+
+    Node* ptr = getHeadPtr();
+
+    if ( empty() ) {
+        pushFront(newData);
+        return;}
+    else {
+        if (newData > getTailPtr()->data) {
+            pushBack(newData);
+            return;}
+        else {
+            while (ptr != getTailPtr()->next) {
+
+                //cout<<ptr->data<<newData<<endl;
+
+                if (ptr->data < newData) {
+                    //cout<<"fuck"<<endl;
+                    ptr = ptr->next;
+
+                } else {
+                    if (ptr->data == getHeadPtr()->data) {
+                        pushFront(newData);
+                        return;
+                    } else {
+                        size_++;
+                        //cout<<newData;
+                        Node *newNode = new Node(newData);
+                        ptr->prev->next = newNode;
+                        newNode->prev = ptr->prev;
+                        ptr->prev = newNode;
+                        newNode->next = ptr;
+                        return;
+                    }
+                }
+            }
+        }
+    }
 
   // Hints:
   // Make your new node on the heap and then find where it needs to
@@ -205,6 +242,7 @@ void LinkedList<T>::insertOrdered(const T& newData) {
 template <typename T>
 LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
 
+
   // You can't edit the original instance of LinkedList that is calling
   // merge because the function is marked const, and the "other" input
   // list is also marked const. However, here we'll make some convenient
@@ -223,7 +261,48 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // the function.
   LinkedList<T> merged;
 
-  // -----------------------------------------------------------
+  Node* ptr_left = left.getHeadPtr();
+  Node* ptr_right = right.getHeadPtr();
+
+  if (left.empty() and right.empty()) {
+      return merged;
+  }
+  else if (left.empty() and !right.empty()) {
+
+        while (ptr_right != right.getTailPtr()->next) {
+            merged.pushBack(ptr_right->data);
+            ptr_right = ptr_right->next;}
+
+  } else if (!left.empty() and right.empty() ) {
+
+        while (ptr_left != left.getTailPtr()->next) {
+            merged.pushBack(ptr_left->data);
+            ptr_left = ptr_left->next;}
+
+  } else {
+
+  while ( (ptr_left != left.getTailPtr()->next) or (ptr_right != right.getTailPtr()->next) ){
+
+      //cout<<"fuck2"<<endl;
+      if ( (ptr_right == right.getTailPtr()->next) or (ptr_left->data <= ptr_right->data)  ){
+
+          merged.pushBack(ptr_left->data);
+          ptr_left = ptr_left->next;
+
+      } else if ( (ptr_left == left.getTailPtr()->next) or (ptr_right->data < ptr_left->data)  ) {
+
+          merged.pushBack(ptr_right->data);
+          ptr_right = ptr_right->next;
+
+      } else {
+          //cout<<"wrong:"<<endl;
+      }
+      //cout<<merged.back();
+
+  } }
+
+
+        // -----------------------------------------------------------
   // TODO: Your code here!
   // -----------------------------------------------------------
   // Please implement this function according to the description

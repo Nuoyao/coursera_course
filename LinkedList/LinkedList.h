@@ -105,7 +105,7 @@ public:
   // for all LinkedList<int> list objects in memory.
   // We do have to put a definition line in global scope later
   // (below in this file) to let the linker find it.
-  static constexpr char LIST_GENERAL_BUG_MESSAGE[] = "[Error] Probable causes: wrong head_ or tail_ pointer, or some next or prev pointer not updated, or wrong size_";
+  static constexpr char LIST_GENERAL_BUG_MESSAGE[] = "[Error] Probable causes: wrong get or tail_ pointer, or some next or prev pointer not updated, or wrong size_";
 
   // This publicly reveals the head and tail pointers of the internal
   // list of nodes that make up our list. This is dangerous! In practice,
